@@ -1,4 +1,4 @@
-# go_demo_users_api
+# Go Demo Microservice - Users API
 
 Go microservice exploration for a blog post - Basic Users API
 
