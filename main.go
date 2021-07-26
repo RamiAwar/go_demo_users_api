@@ -2,6 +2,6 @@ package main
 
 import "github.com/RamiAwar/go_demo_users_api/app"
 
-func main(){
+func main() {
 	app.Start()
 }

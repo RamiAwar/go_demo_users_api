@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateUser(c *gin.Context){
+func CreateUser(c *gin.Context) {
 	var user users.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		restError := errors.BadRequestError(err.Error())
@@ -23,11 +23,11 @@ func CreateUser(c *gin.Context){
 		c.JSON(err.Status, err)
 		return
 	}
-	
-	c.JSON(http.StatusCreated, result)
+
+	c.JSON(http.StatusCreated, result.Marshal())
 }
 
-func GetUser(c *gin.Context){
+func GetUser(c *gin.Context) {
 	userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 	if userErr != nil {
 		userErr := errors.BadRequestError("Invalid user id")
@@ -41,9 +41,14 @@ func GetUser(c *gin.Context){
 		return
 	}
 
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, user.Marshal())
 }
 
-func AutocompleteUser(c *gin.Context){
-	c.String(http.StatusNotImplemented, "Not Implemented")
+func SearchUser(c *gin.Context) {
+	users, err := services.Search(c.Query("q"))
+	if err != nil {
+		c.JSON(err.Status, err)
+	}
+
+	c.JSON(http.StatusOK, users.Marshal())
 }

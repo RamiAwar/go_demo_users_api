@@ -5,11 +5,11 @@ import (
 	"github.com/RamiAwar/go_demo_users_api/routers/users"
 )
 
-func mapRoutes(){
+func mapRoutes() {
 	router.GET("/health", stats.HealthCheck)
 	router.GET("/version", stats.Version)
-	
+
 	router.POST("/user", users.CreateUser)
 	router.GET("/user/:user_id", users.GetUser)
-	router.GET("/user/autocomplete", users.AutocompleteUser)
+	router.GET("/user/search", users.SearchUser)
 }

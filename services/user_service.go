@@ -31,3 +31,7 @@ func GetUser(userId int64) (*users.User, *errors.RestError) {
 
 	return result, nil
 }
+
+func Search(query string) (users.Users, *errors.RestError) {
+	return users.Find(query)
+}
