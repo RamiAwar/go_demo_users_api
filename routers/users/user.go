@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/RamiAwar/go_demo_users_api/models/users"
-	"github.com/RamiAwar/go_demo_users_api/services"
+	s "github.com/RamiAwar/go_demo_users_api/services"
 	"github.com/RamiAwar/go_demo_users_api/utils/errors"
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +18,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	result, err := services.CreateUser(user)
+	result, err := s.UserService.CreateUser(user)
 	if err != nil {
 		c.JSON(err.Status, err)
 		return
@@ -35,7 +35,7 @@ func GetUser(c *gin.Context) {
 		return
 	}
 
-	user, getErr := services.GetUser(userId)
+	user, getErr := s.UserService.GetUser(userId)
 	if getErr != nil {
 		c.JSON(getErr.Status, getErr)
 		return
@@ -45,7 +45,7 @@ func GetUser(c *gin.Context) {
 }
 
 func SearchUser(c *gin.Context) {
-	users, err := services.Search(c.Query("q"))
+	users, err := s.UserService.Search(c.Query("q"))
 	if err != nil {
 		c.JSON(err.Status, err)
 	}

@@ -6,6 +6,7 @@ import (
 
 	"github.com/RamiAwar/go_demo_users_api/utils/date"
 	"github.com/RamiAwar/go_demo_users_api/utils/errors"
+	"github.com/RamiAwar/go_demo_users_api/utils/logging"
 	"github.com/RamiAwar/go_demo_users_api/utils/security"
 )
 
@@ -41,6 +42,7 @@ func (user *User) Save() *errors.RestError {
 	user.DateCreated = date.Now()
 	hash, err := security.HashPassword(user.Password)
 	if err != nil {
+		logging.Error("Database saving failed", err)
 		return errors.InternalServerError("Could not save user, contact support.")
 	}
 

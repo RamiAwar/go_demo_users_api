@@ -5,7 +5,20 @@ import (
 	"github.com/RamiAwar/go_demo_users_api/utils/errors"
 )
 
-func CreateUser(user users.User) (*users.User, *errors.RestError) {
+var (
+	UserService IUserService = &userService{}
+)
+
+type userService struct {
+}
+
+type IUserService interface {
+	CreateUser(users.User) (*users.User, *errors.RestError)
+	GetUser(int64) (*users.User, *errors.RestError)
+	Search(string) (users.Users, *errors.RestError)
+}
+
+func (s *userService) CreateUser(user users.User) (*users.User, *errors.RestError) {
 	if err := user.Validate(); err != nil {
 		return nil, err
 	}
@@ -17,7 +30,7 @@ func CreateUser(user users.User) (*users.User, *errors.RestError) {
 	return &user, nil
 }
 
-func GetUser(userId int64) (*users.User, *errors.RestError) {
+func (s *userService) GetUser(userId int64) (*users.User, *errors.RestError) {
 	if userId <= 0 {
 		return nil, errors.BadRequestError("Invalid user ID")
 	}
@@ -32,6 +45,6 @@ func GetUser(userId int64) (*users.User, *errors.RestError) {
 	return result, nil
 }
 
-func Search(query string) (users.Users, *errors.RestError) {
+func (s *userService) Search(query string) (users.Users, *errors.RestError) {
 	return users.Find(query)
 }
